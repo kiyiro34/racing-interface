@@ -6,88 +6,53 @@
     <script src="circuit.js"></script>
     <title>Simulation</title>
     <link href="style.css" rel="stylesheet">
-    <style>
-        /* Existing styles */
-        #container {
-            display: flex;
-        }
-        #canvas {
-            flex: 2; /* Give more space to the canvas */
-        }
-        #controls {
-            margin-left: 20px;
-            flex: 1; /* Control area takes less space */
-        }
-        #dashboard {
-            margin-top: 20px;
-            width: 100%; /* Ensure full width */
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
-        button {
-            margin-right: 10px;
-        }
-        .progress {
-            width: 70%; /* Reduced width of the progress bar */
-            height: 20px; /* Height remains the same */
-            background-color: #e0e0e0; /* Background of the progress container */
-            border-radius: 5px;
-            overflow: hidden; /* To clip the inner div */
-            margin: 0 auto; /* Center the progress bar */
-        }
-        .progress-bar {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.2s ease; /* Smooth transition for width */
-        }
-    </style>
-    
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="container">
         <canvas id="canvas" width="800" height="800"></canvas>
         <div id="controls">
-            <h3>Simulation</h3>
+            <h2>Simulation</h2>
             <button id="startButton">Start</button>
             <button id="stopButton" disabled>Stop</button>
             <button id="resetButton" disabled>Reset</button>
 
-            <h3>Add a drone</h3>
-            <label for="carBrand">Marque :</label>
-            <select id="carBrand">
-                <option value="Ferrari">Ferrari</option>
-                <option value="Lamborghini">Lamborghini</option>
-                <option value="Porsche">Porsche</option>
-                <option value="McLaren">McLaren</option>
-                <option value="Aston Martin">Aston Martin</option>
-            </select><br><br>
+            <h2>Add a drone</h2>
+            <div class="input-group">
+                <div>
+                <select id="carBrand">
+                    <option value="Ferrari">Ferrari</option>
+                    <option value="Lamborghini">Lamborghini</option>
+                    <option value="Porsche">Porsche</option>
+                    <option value="McLaren">McLaren</option>
+                    <option value="Aston Martin">Aston Martin</option>
+                </select>
+                </div>
+                <div>
+                    <label for="powerRange">Power :</label>
+                    <input type="range" id="powerRange" min="5" max="30" step="0.01" value="5">
+                    <span id="powerValue">5</span> N.m
+    
+                    <label for="massRange">Mass :</label>
+                    <input type="range" id="massRange" min="0.5" max="5" step="0.01" value="0.5">
+                    <span id="massValue">0.5</span> kg
+                </div>
+                <div>
+                    <button id="addCarButton">Add</button>
+                </div>
+            </div>
+            
+            
 
-            <label for="powerRange">Power :</label>
-            <input type="range" id="powerRange" min="500" max="10000" step="100" value="500">
-            <span id="powerValue">500</span> N.m<br><br>
-
-            <label for="massRange">Mass :</label>
-            <input type="range" id="massRange" min="500" max="1000" step="10" value="500">
-            <span id="massValue">500</span> kg<br><br>
-
-            <button id="addCarButton">Add</button>
             <div id="dashboard">
-                <h3>Drone dashboards</h3>
+                <h2>Data</h2>
                 <table id="carTable">
                     <thead>
                         <tr>
-                            <th>Model</th>
-                            <th>Speed</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,10 +60,27 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Tableau des scores -->
+            <div id="leaderboard">
+                <h2>Leaderboard</h2>
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Modèle</th>
+                            <th>Meilleur Temps (s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les temps seront affichés ici -->
+                    </tbody>
+                </table>
+            </div>
+            
+
         </div>
     </div>
 
     <script type="module" src="script.js"></script>
 </body>
 </html>
-
