@@ -1,24 +1,104 @@
-
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Simulateur de Voiture</title>
-    <link rel="stylesheet" href="style.css">
-
-    <script src="car.js"></script> 
-    <script src="circuit.js"></script> <!-- Charge la classe Car -->
-    <!-- Charge la classe Car -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="circuit.js"></script>
+    <title>Simulation</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        /* Existing styles */
+        #container {
+            display: flex;
+        }
+        #canvas {
+            flex: 2; /* Give more space to the canvas */
+        }
+        #controls {
+            margin-left: 20px;
+            flex: 1; /* Control area takes less space */
+        }
+        #dashboard {
+            margin-top: 20px;
+            width: 100%; /* Ensure full width */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        button {
+            margin-right: 10px;
+        }
+        .progress {
+            width: 70%; /* Reduced width of the progress bar */
+            height: 20px; /* Height remains the same */
+            background-color: #e0e0e0; /* Background of the progress container */
+            border-radius: 5px;
+            overflow: hidden; /* To clip the inner div */
+            margin: 0 auto; /* Center the progress bar */
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.2s ease; /* Smooth transition for width */
+        }
+    </style>
+    
+    
 </head>
 <body>
-    <h1>Position de la voiture</h1>
-    <div id="position"></div>
-    <button id="startButton">Démarrer</button>
-    <button id="stopButton" disabled>Arrêter</button>
-    <button id="resetButton">Reset</button>
+    <div id="container">
+        <canvas id="canvas" width="800" height="800"></canvas>
+        <div id="controls">
+            <h3>Simulation</h3>
+            <button id="startButton">Start</button>
+            <button id="stopButton" disabled>Stop</button>
+            <button id="resetButton" disabled>Reset</button>
 
-    <canvas id="canvas" width="800" height="800"></canvas>
-    <script src="script.js"></script> <!-- Charge le script principal -->
+            <h3>Add a drone</h3>
+            <label for="carBrand">Marque :</label>
+            <select id="carBrand">
+                <option value="Ferrari">Ferrari</option>
+                <option value="Lamborghini">Lamborghini</option>
+                <option value="Porsche">Porsche</option>
+                <option value="McLaren">McLaren</option>
+                <option value="Aston Martin">Aston Martin</option>
+            </select><br><br>
 
+            <label for="powerRange">Power :</label>
+            <input type="range" id="powerRange" min="500" max="10000" step="100" value="500">
+            <span id="powerValue">500</span> N.m<br><br>
+
+            <label for="massRange">Mass :</label>
+            <input type="range" id="massRange" min="500" max="1000" step="10" value="500">
+            <span id="massValue">500</span> kg<br><br>
+
+            <button id="addCarButton">Add</button>
+            <div id="dashboard">
+                <h3>Drone dashboards</h3>
+                <table id="carTable">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Speed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les informations sur les voitures vont s'ajouter ici dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
+

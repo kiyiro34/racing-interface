@@ -25,8 +25,8 @@ class Circuit {
         const offsetX = (canvasWidth - circuitWidth) / 2 - minX * scale;
         const offsetY = (canvasHeight - circuitHeight) / 2 - minY * scale;
 
-        ctx.fillStyle = 'red';
-        ctx.strokeStyle = 'red';
+        ctx.fillStyle = '#3d3b3a';
+        ctx.strokeStyle = '#3d3b3a';
         ctx.lineWidth = 1;
 
         this.points.forEach(point => {
