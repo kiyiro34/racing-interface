@@ -156,14 +156,28 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
 
     let carRow = document.getElementById(carModel);
     if (!carRow) {
-        // Ligne principale contenant le modèle et la vitesse
+        // Ligne principale contenant le modèle, la couleur et la vitesse
         carRow = document.createElement('tr');
         carRow.id = carModel;
 
+        // Création de la cellule pour le cercle de couleur
+        const colorCell = document.createElement('td');
+        colorCell.style.width = '20px';  // Réduire la largeur de la cellule
+        const colorCircle = document.createElement('div');
+        colorCircle.style.width = '12px';
+        colorCircle.style.height = '12px';
+        colorCircle.style.borderRadius = '50%';
+        colorCircle.style.backgroundColor = carColors[carModel];  // Utilise la couleur de la voiture
+        colorCircle.style.margin = 'auto';  // Centrer le cercle dans la cellule
+        colorCell.appendChild(colorCircle);
+        carRow.appendChild(colorCell);
+
+        // Cellule pour le modèle de voiture
         const modelCell = document.createElement('td');
         modelCell.textContent = carModel;
         carRow.appendChild(modelCell);
 
+        // Cellule pour la barre de progression de la vitesse
         const speedCell = document.createElement('td');
 
         // Créer une barre de progression pour la vitesse
@@ -184,7 +198,7 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
         const infoRow = document.createElement('tr');
         infoRow.id = carModel + '-info';
         const infoCell = document.createElement('td');
-        infoCell.colSpan = 2; // Fusionner les colonnes pour les informations
+        infoCell.colSpan = 3; // Fusionner les colonnes pour les informations
 
         infoRow.appendChild(infoCell);
         document.getElementById('carTable').querySelector('tbody').appendChild(infoRow);

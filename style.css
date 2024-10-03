@@ -15,11 +15,58 @@ html, body {
 }
 
 
+#header {
+    background: #C6FFDD;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f7797d, #FBD786, #C6FFDD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+ /* Dégradé de fond initial */
+    color: white;
+    padding: 20px 15px;
+    text-align: center; /* Cela pourrait être changé si nécessaire */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s; /* Transition pour l'opacité */
+    position: relative;
+    display: flex; /* Active Flexbox */
+    align-items: center; /* Centre verticalement les éléments */
+    justify-content: center;
+    gap: 3px; /* Centre horizontalement les éléments */
+}
+
+#header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease; /* Animation pour le texte */
+}
+
+#header #logo {
+    width: 50px;
+    margin-right: 10px; /* Espace entre le logo et le texte */
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+}
+
+/* Animations au survol */
+#header:hover h1 {
+    transform: scale(1.1); /* Légèrement agrandir le texte au survol */
+}
+
+#header:hover #logo {
+    transform: rotate(360deg); /* Rotation du logo au survol */
+}
+
 
 #container {
     display: flex;
-    height: 100vh; /* Conteneur prenant toute la hauteur */
+    height: 100vh; /* Ajuste la hauteur en tenant compte du header */
 }
+
 
 #canvas {
     flex: 2.5; /* Augmenter l'espace pour le canvas */
@@ -28,7 +75,7 @@ html, body {
 #controls {
     margin-left: 20px;
     flex: 1; /* Réduire la taille de la zone de contrôle */
-    background-color: #333231; /* Fond sombre pour la partie droite */
+    background-color: #212120; /* Fond sombre pour la partie droite */
     color: white; /* Texte blanc pour la partie sombre */
     padding: 15px; /* Réduire l'espacement intérieur pour le contrôle */
     max-height: 100vh; /* Limite la hauteur à 90% de la hauteur de la fenêtre */
@@ -63,7 +110,7 @@ html, body {
 /* Styliser le sélecteur de marque */
 select {
     padding: 10px; /* Ajout d'espacement intérieur */
-    border: 1px solid #ccc; /* Bordure gris clair */
+    border: 1px solid #212120; /* Bordure gris clair */
     border-radius: 5px; /* Coins arrondis */
     background-color: white; /* Fond blanc pour le sélecteur */
     color: black; /* Texte noir */
