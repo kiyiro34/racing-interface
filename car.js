@@ -1,12 +1,13 @@
-// Car.js
-
 class Car {
-    constructor(positionX, positionY, color) {
+    constructor(positionX, positionY, color, mass = 0, couple = 0) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.color = color;
         this.image = new Image();
         this.image.src = "done.webp";  // Met à jour cette source selon ton image
+        this.heading = 0; // Initialiser la direction (heading)
+        this.mass = mass; // Masse de la voiture
+        this.couple = couple; // Couple de la voiture
     }
 
     draw(ctx, scale, canvasHeight, canvasWidth, circuitBoundingBox, speedVector, nextPointVector) {
@@ -35,19 +36,25 @@ class Car {
         offCtx.fillStyle = this.color;
         offCtx.fillRect(0, 0, carWidth, carHeight);
 
-        ctx.drawImage(offCanvas, canvasX - carWidth / 2, canvasY - carHeight / 2);
+        // Rotation de la voiture selon le heading
+        ctx.save(); // Sauvegarde l'état du contexte
+        ctx.translate(canvasX, canvasY); // Déplacement du contexte au centre de la voiture
+
+        ctx.rotate(this.heading); // Rotation selon le heading
+        ctx.drawImage(offCanvas, -carWidth / 2, -carHeight / 2); // Dessine l'image centrée sur le canvas
+        ctx.restore(); // Restauration de l'état du contexte
 
         const centerX = canvasX;
         const centerY = canvasY;
 
         if (speedVector) {
-            this.drawVector(ctx, centerX, centerY, speedVector.x, speedVector.y, 'red', scale);
+            this.drawVector(ctx, centerX, centerY, speedVector.x, speedVector.y, '#680ecf', scale);
         }
 
         if (nextPointVector) {
             const scaledNextPointVectorX = nextPointVector.x * 30;
             const scaledNextPointVectorY = nextPointVector.y * 30;
-            this.drawVector(ctx, centerX, centerY, scaledNextPointVectorX, scaledNextPointVectorY, '#5bff19', scale);
+            this.drawVector(ctx, centerX, centerY, scaledNextPointVectorX, scaledNextPointVectorY, '#0d8bd9', scale);
         }
     }
 
