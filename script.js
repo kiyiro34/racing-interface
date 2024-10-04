@@ -13,7 +13,7 @@ let carColors = {};
 // Initialiser l'objet pour stocker les meilleurs temps
 let bestLapTimes = {}; // Un objet pour stocker les couleurs associées aux voitures
 let circuit = null;
-const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c']; // Liste des couleurs possibles
+const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c','#ad0e68']; // Liste des couleurs possibles
 
 // Initialiser le circuit
 function initializeCircuit() {
