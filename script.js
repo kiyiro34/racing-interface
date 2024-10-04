@@ -149,8 +149,11 @@ document.getElementById('resetButton').addEventListener('click', function() {
     cars = {};  // Vider l'objet des voitures
     document.getElementById('carTable').querySelector('tbody').innerHTML = ''; // Vider le tableau de bord
     draw(); // Redessiner le canvas
-});
 
+    // Réinitialiser le tableau des meilleurs temps
+    bestLapTimes = {}; // Vider les meilleurs temps
+    updateLeaderboard(); // Mettre à jour le leaderboard
+});
 function updateDashboard(carModel, speedX, speedY, mass, couple) {
     const speedNorm = Math.sqrt(speedX * speedX + speedY * speedY).toFixed(2);
 
