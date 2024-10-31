@@ -4,7 +4,7 @@ class Car {
         this.positionY = positionY;
         this.color = color;
         this.image = new Image();
-        this.image.src = "done.webp";  // Met à jour cette source selon ton image
+        this.image.src = "static/img/done.webp";  // Met à jour cette source selon ton image
         this.heading = 0; // Initialiser la direction (heading)
         this.mass = mass; // Masse de la voiture
         this.couple = couple; // Couple de la voiture

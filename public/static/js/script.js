@@ -1,4 +1,4 @@
-import { Car } from './car.js';  // Importer la classe Car depuis le fichier Car.js
+import { Car } from './car.js';
 
 let socket;
 let isRunning = false;
@@ -8,10 +8,9 @@ const canvasWidth = 800;
 const canvasHeight = 800;
 const scale = canvasWidth / 500;
 
-let cars = {};  // Un objet pour stocker toutes les voitures par modèle
+let cars = {};  
 let carColors = {}; 
-// Initialiser l'objet pour stocker les meilleurs temps
-let bestLapTimes = {}; // Un objet pour stocker les couleurs associées aux voitures
+let bestLapTimes = {}; 
 let circuit = null;
 const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c','#ad0e68']; // Liste des couleurs possibles
 
