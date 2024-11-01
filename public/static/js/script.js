@@ -1,4 +1,4 @@
-import { Car } from './car.js';
+import { Car } from './classes/car.js';
 
 let socket;
 let isRunning = false;
