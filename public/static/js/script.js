@@ -1,5 +1,3 @@
-import { Car } from './classes/car.js';
-
 let socket;
 let isRunning = false;
 const canvas = document.getElementById('canvas');

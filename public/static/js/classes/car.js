@@ -87,5 +87,3 @@ class Car {
     }
 }
 
-// Exporter la classe pour pouvoir l'utiliser dans d'autres fichiers
-export { Car };
