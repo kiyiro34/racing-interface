@@ -16,7 +16,7 @@ const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c'
 
 // Initialiser le circuit
 function initializeCircuit() {
-    fetch("http://localhost:8080/circuitPoint", { method: "GET" })
+    fetch("http://localhost:8080/circuit/points", { method: "GET" })
     .then(response => response.json())
     .then(data => {
         circuit = new Circuit(data);
@@ -42,7 +42,7 @@ document.getElementById('addCarButton').addEventListener('click', function() {
     };
 
     // Envoie des données de la nouvelle voiture au serveur (adresse à compléter)
-    fetch("http://localhost:8080/addCar", {
+    fetch("http://localhost:8080/car/add", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ document.getElementById('startButton').addEventListener('click', function() {
 document.getElementById('stopButton').addEventListener('click', function() {
     if (isRunning) {
         socket.close();
-        fetch("http://localhost:8080/stopSimulation", { method: "POST" });
+        fetch("http://localhost:8080/simulation/stop", { method: "POST" });
     }
 });
 
