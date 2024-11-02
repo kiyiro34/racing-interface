@@ -27,4 +27,4 @@ function drawGrid() {
     }
 }
 
-drawGrid()
+// drawGrid()

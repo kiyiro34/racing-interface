@@ -2,9 +2,9 @@
 :root {
     --color-text-black: #000000;
     --color-background-white: #ffffff;
-    --color-header-gradient-start: #f7797d;
-    --color-header-gradient-middle: #FBD786;
-    --color-header-gradient-end: #C6FFDD;
+    --color-header-gradient-start: #0F2027;
+    --color-header-gradient-middle: #203A43;
+    --color-header-gradient-end: #2C5364;
     --color-controls-background: #111111;
     --color-button-border: #cccccc;
     --color-button-hover: #e0e0e0;
