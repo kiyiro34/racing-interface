@@ -1,5 +1,3 @@
-import { Car } from './car.js';
-
 let socket;
 let isRunning = false;
 const canvas = document.getElementById('canvas');
@@ -12,11 +10,26 @@ let cars = {};
 let carColors = {}; 
 let bestLapTimes = {}; 
 let circuit = null;
-const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c','#ad0e68']; // Liste des couleurs possibles
+const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c','#ad0e68']; 
+let apiHost;
+
+async function loadConfig() {
+    try {
+        const response = await fetch('/config');
+        const config = await response.json();
+        apiHost = config.apiHost;
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la configuration:', error);
+    }
+}
 
 // Initialiser le circuit
-function initializeCircuit() {
-    fetch("http://localhost:8080/circuitPoint", { method: "GET" })
+async function initializeCircuit() {
+    if (!apiHost) {
+        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+    }
+    const url = `${apiHost}/circuit/points`;
+    fetch(url, { method: "GET" })
     .then(response => response.json())
     .then(data => {
         circuit = new Circuit(data);
@@ -40,9 +53,17 @@ document.getElementById('addCarButton').addEventListener('click', function() {
         power: power,
         mass: mass
     };
+    addCar(carData)
+    
+});
 
+async function addCar(carData) {
+    if (!apiHost) {
+        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+    }
+    const url = `${apiHost}/car/add`;
     // Envoie des données de la nouvelle voiture au serveur (adresse à compléter)
-    fetch("http://localhost:8080/addCar", {
+    fetch(url, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -54,7 +75,8 @@ document.getElementById('addCarButton').addEventListener('click', function() {
         console.log("Voiture ajoutée avec succès :", data);
     })
     .catch(error => console.error('Erreur lors de l\'ajout de la voiture:', error));
-});
+    
+}
 
 // Mettre à jour les valeurs des sliders
 document.getElementById('powerRange').addEventListener('input', function() {
@@ -67,8 +89,16 @@ document.getElementById('massRange').addEventListener('input', function() {
 
 // WebSocket pour démarrer la simulation
 document.getElementById('startButton').addEventListener('click', function() {
+    socketInit()
+});
+
+async function socketInit() {
+    if (!apiHost) {
+        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+    }
+    const socketUrl = `${apiHost}/positions`;
     if (!isRunning) {
-        socket = new WebSocket("http://localhost:8080/positions");
+        socket = new WebSocket(socketUrl);
         socket.onopen = function() {
             console.log("Connexion établie.");
             isRunning = true;
@@ -128,15 +158,24 @@ document.getElementById('startButton').addEventListener('click', function() {
             document.getElementById('resetButton').disabled = true;
         };
     }
-});
+}
+
 
 // Stopper la simulation
 document.getElementById('stopButton').addEventListener('click', function() {
+    stopSimulation()
+});
+
+async function stopSimulation() {
+    if (!apiHost) {
+        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+    }
+    const url = `${apiHost}/simulation/stop`;
     if (isRunning) {
         socket.close();
-        fetch("http://localhost:8080/stopSimulation", { method: "POST" });
+        fetch(url, { method: "POST" });
     }
-});
+}
 
 // Réinitialiser la simulation
 document.getElementById('resetButton').addEventListener('click', function() {
