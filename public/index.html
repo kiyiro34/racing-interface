@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="circuit.js"></script>
+    <script src="static/js/classes/circuit.js"></script>
+    <script src="static/js/classes/car.js"></script>
     <title>Drone Racing</title>
-    <link href="style.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header id="header">
-        <img src="logo.png" alt="Logo" id="logo">
+        <img src="static/img/logo.png" alt="Logo" id="logo">
         <h1>Drone Racing</h1>
     </header>
     
@@ -63,11 +64,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Les informations sur les voitures vont s'ajouter ici dynamiquement -->
                     </tbody>
                 </table>
             </div>
-            <!-- Tableau des scores -->
             <div id="leaderboard">
                 <h2>Leaderboard</h2>
                 <table id="leaderboardTable">
@@ -79,7 +78,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Les temps seront affichés ici -->
                     </tbody>
                 </table>
             </div>
@@ -88,6 +86,6 @@
         </div>
     </div>
 
-    <script type="module" src="script.js"></script>
+    <script type="module" src="static/js/script.js"></script>
 </body>
 </html>

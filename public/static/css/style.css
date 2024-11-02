@@ -1,0 +1,220 @@
+/* Colors var */
+:root {
+    --color-text-black: #000000;
+    --color-background-white: #ffffff;
+    --color-header-gradient-start: #f7797d;
+    --color-header-gradient-middle: #FBD786;
+    --color-header-gradient-end: #C6FFDD;
+    --color-controls-background: #212120;
+    --color-button-border: #cccccc;
+    --color-button-hover: #e0e0e0;
+    --color-progress-background: #e0e0e0;
+    --color-leaderboard-background: #444444;
+    --color-leaderboard-header: #555555;
+    --color-leaderboard-row-even: #333333;
+    --color-leaderboard-row-hover: #666666;
+}
+
+/* Fonts */
+@font-face {
+    font-family: "Spline Sans Mono";
+    src: url("path/to/your/font/SplineSansMono.woff2") format("woff2"),
+         url("path/to/your/font/SplineSansMono.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Global */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Spline Sans Mono", monospace;
+    font-optical-sizing: auto;
+    color: var(--color-text-black);
+    background-color: var(--color-background-white);
+}
+
+/* Header */
+#header {
+    background: linear-gradient(
+        to right,
+        var(--color-header-gradient-start),
+        var(--color-header-gradient-middle),
+        var(--color-header-gradient-end)
+    );
+    color: var(--color-background-white);
+    padding: 20px 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+#header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+#header #logo {
+    width: 50px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+}
+
+#header:hover h1 {
+    transform: scale(1.1);
+}
+
+#header:hover #logo {
+    transform: rotate(360deg);
+}
+
+/* Main Container */
+#container {
+    display: flex;
+    height: 100vh;
+}
+
+#canvas {
+    flex: 2.5;
+    background-color: var(--color-background-white);
+}
+
+#controls {
+    margin-left: 20px;
+    flex: 1;
+    background-color: var(--color-controls-background);
+    color: var(--color-background-white);
+    padding: 15px;
+    max-height: 100vh;
+    overflow-y: auto;
+    border: none;
+}
+
+/* Dashboard */
+#dashboard {
+    margin-top: 30px;
+    width: 100%;
+}
+
+#carTable {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#carTable th, #carTable td {
+    border: none;
+    padding: 10px;
+    text-align: center;
+}
+
+#carTable tbody {
+    display: table-row-group;
+}
+
+#carTable td:first-child {
+    width: 30%;
+}
+
+#carTable td:last-child {
+    width: 70%;
+}
+
+/* Form Elements */
+select {
+    padding: 10px;
+    border: 1px solid var(--color-controls-background);
+    border-radius: 5px;
+    background-color: var(--color-background-white);
+    color: var(--color-text-black);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+button {
+    margin: 10px 0;
+    margin-right: 10px;
+    background-color: var(--color-background-white);
+    color: var(--color-text-black);
+    border: 1px solid var(--color-button-border);
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: var(--color-button-hover);
+    transform: scale(1.05);
+}
+
+/* Progress Bar */
+.progress {
+    width: 70%;
+    height: 20px;
+    background-color: var(--color-progress-background);
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.2s ease;
+}
+
+/* Leaderboard */
+#leaderboard {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--color-leaderboard-background);
+    border-radius: 5px;
+    color: var(--color-background-white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#leaderboardTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#leaderboardTable th, #leaderboardTable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--color-leaderboard-row-hover);
+}
+
+#leaderboardTable th {
+    background-color: var(--color-leaderboard-header);
+    color: var(--color-background-white);
+}
+
+#leaderboardTable tbody tr:nth-child(even) {
+    background-color: var(--color-leaderboard-row-even);
+}
+
+#leaderboardTable tbody tr:hover {
+    background-color: var(--color-leaderboard-row-hover);
+    transition: background-color 0.3s;
+}
