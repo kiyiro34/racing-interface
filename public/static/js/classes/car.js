@@ -4,10 +4,10 @@ class Car {
         this.positionY = positionY;
         this.color = color;
         this.image = new Image();
-        this.image.src = "static/img/done.webp";  // Met à jour cette source selon ton image
-        this.heading = 0; // Initialiser la direction (heading)
-        this.mass = mass; // Masse de la voiture
-        this.couple = couple; // Couple de la voiture
+        this.image.src = "static/img/done.webp";  
+        this.heading = 0; 
+        this.mass = mass; 
+        this.couple = couple; 
     }
 
     draw(ctx, scale, canvasHeight, canvasWidth, circuitBoundingBox, speedVector, nextPointVector) {
@@ -36,13 +36,12 @@ class Car {
         offCtx.fillStyle = this.color;
         offCtx.fillRect(0, 0, carWidth, carHeight);
 
-        // Rotation de la voiture selon le heading
-        ctx.save(); // Sauvegarde l'état du contexte
-        ctx.translate(canvasX, canvasY); // Déplacement du contexte au centre de la voiture
+        ctx.save();
+        ctx.translate(canvasX, canvasY); 
 
-        ctx.rotate(this.heading); // Rotation selon le heading
-        ctx.drawImage(offCanvas, -carWidth / 2, -carHeight / 2); // Dessine l'image centrée sur le canvas
-        ctx.restore(); // Restauration de l'état du contexte
+        ctx.rotate(this.heading);
+        ctx.drawImage(offCanvas, -carWidth / 2, -carHeight / 2);
+        ctx.restore();
 
         const centerX = canvasX;
         const centerY = canvasY;

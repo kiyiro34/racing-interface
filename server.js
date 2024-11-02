@@ -14,7 +14,6 @@ app.get('/config', (req, res) => {
     res.json({ apiHost: process.env.API_HOST });
 });
 
-
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
