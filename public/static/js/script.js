@@ -177,10 +177,21 @@ async function stopSimulation() {
     }
 }
 
+async function resetSimulation() {
+    if (!apiHost) {
+        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+    }
+    const url = `${apiHost}/simulation/reset`;
+    if (isRunning) {
+        socket.close();
+        fetch(url, { method: "POST" });
+    }
+}
+
 // Réinitialiser la simulation
 document.getElementById('resetButton').addEventListener('click', function() {
     if (isRunning && socket) {
-        socket.send(JSON.stringify({ action: 'reset' }));
+        resetSimulation()
     }
     
     // Effacer les voitures et le tableau de bord
