@@ -13,7 +13,7 @@ class Circuit {
         return { minX, maxX, minY, maxY };
     }
 
-    // Méthode pour dessiner les points du circuit sur le canvas avec centrage
+    // Méthode pour dessiner le circuit sur le canvas avec centrage
     draw(ctx, scale, canvasHeight, canvasWidth) {
         const { minX, maxX, minY, maxY } = this.boundingBox;
 
@@ -25,16 +25,31 @@ class Circuit {
         const offsetX = (canvasWidth - circuitWidth) / 2 - minX * scale;
         const offsetY = (canvasHeight - circuitHeight) / 2 - minY * scale;
 
-        ctx.fillStyle = '#242322';
-        ctx.strokeStyle = '#242322';
-        ctx.lineWidth = 1;
+        ctx.fillStyle = '#242322'; // Couleur pour le remplissage des points
+        ctx.strokeStyle = '#242322'; // Couleur pour le tracé des lignes
+        ctx.lineWidth = 3;
 
+        // Dessiner les lignes entre les points
+        ctx.beginPath();
+        this.points.forEach((point, index) => {
+            const x = point.x * scale + offsetX;
+            const y = canvasHeight - (point.y * scale + offsetY);
+            if (index === 0) {
+                ctx.moveTo(x, y); // Déplacer au premier point sans tracer
+            } else {
+                ctx.lineTo(x, y); // Tracer une ligne jusqu'au point suivant
+            }
+        });
+        ctx.closePath(); // Fermer le chemin pour dessiner le circuit complet
+        ctx.stroke(); // Dessiner les lignes
+
+        // Optionnel: Dessiner les points
         this.points.forEach(point => {
+            const x = point.x * scale + offsetX;
+            const y = canvasHeight - (point.y * scale + offsetY);
             ctx.beginPath();
-            // Appliquer le décalage pour centrer les points
-            ctx.arc(point.x * scale + offsetX, canvasHeight - (point.y * scale + offsetY), 10, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.stroke();
+            ctx.arc(x, y, 5, 0, Math.PI * 2); // Dessiner un petit cercle au point
+            ctx.fill(); // Remplir le cercle
         });
     }
 }
