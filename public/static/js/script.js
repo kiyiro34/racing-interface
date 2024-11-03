@@ -23,10 +23,10 @@ async function loadConfig() {
     }
 }
 
-// Initialiser le circuit
+// Initialize circuit
 async function initializeCircuit() {
     if (!apiHost) {
-        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+        await loadConfig(); 
     }
     const url = `${apiHost}/circuit/points`;
     fetch(url, { method: "GET" })
@@ -42,7 +42,7 @@ async function initializeCircuit() {
 
 initializeCircuit();
 
-// Ajouter une voiture via l'interface utilisateur
+// Add a car to the race
 document.getElementById('addCarButton').addEventListener('click', function() {
     const carBrand = document.getElementById('carBrand').value;
     const power = document.getElementById('powerRange').value;
@@ -59,10 +59,10 @@ document.getElementById('addCarButton').addEventListener('click', function() {
 
 async function addCar(carData) {
     if (!apiHost) {
-        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+        await loadConfig(); 
     }
     const url = `${apiHost}/car/add`;
-    // Envoie des données de la nouvelle voiture au serveur (adresse à compléter)
+    // Send car data to the api
     fetch(url, {
         method: "POST",
         headers: {
@@ -78,7 +78,7 @@ async function addCar(carData) {
     
 }
 
-// Mettre à jour les valeurs des sliders
+// Update slider data
 document.getElementById('powerRange').addEventListener('input', function() {
     document.getElementById('powerValue').textContent = this.value;
 });
@@ -87,14 +87,13 @@ document.getElementById('massRange').addEventListener('input', function() {
     document.getElementById('massValue').textContent = this.value;
 });
 
-// WebSocket pour démarrer la simulation
 document.getElementById('startButton').addEventListener('click', function() {
     socketInit()
 });
 
 async function socketInit() {
     if (!apiHost) {
-        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+        await loadConfig(); 
     }
     const socketUrl = `${apiHost}/positions`;
     if (!isRunning) {
@@ -116,8 +115,6 @@ async function socketInit() {
             else{
                 for (let carModel in data) {
                     const carData = data[carModel];
-            
-                    // Vérifiez si carData a des informations de position
                     if (carData.positionX !== undefined && carData.positionY !== undefined) {
                         if (!cars[carModel]) {
                             const color = colors[Object.keys(cars).length % colors.length];
@@ -126,30 +123,21 @@ async function socketInit() {
                         } else {
                             cars[carModel].positionX = carData.positionX;
                             cars[carModel].positionY = carData.positionY;
-                            cars[carModel].mass = carData.mass; // Mettre à jour la masse
-                            cars[carModel].couple = carData.couple; // Mettre à jour le couple
-                            cars[carModel].heading = carData.heading; // Mettre à jour le heading
+                            cars[carModel].mass = carData.mass;
+                            cars[carModel].couple = carData.couple;
+                            cars[carModel].heading = carData.heading;
                         }
-            
-                        // Mettez à jour le vecteur de vitesse et le vecteur du prochain point
                         cars[carModel].speedVector = { x: carData.speedX, y: carData.speedY };
                         cars[carModel].nextPointVector = { x: carData.nextPointVectorX, y: carData.nextPointVectorY };
             
-                        // Mettre à jour le tableau de bord pour les informations de position
                         updateDashboard(carModel, carData.speedX, carData.speedY, carData.mass, carData.couple);
-                    }
-            
-                    // Vérifiez si carData a un temps de tour
+                    }            
                 }
                 draw();
             }
             
         
         };
-        
-        
-        
-
         socket.onclose = function() {
             console.log("Connexion fermée.");
             isRunning = false;
@@ -161,14 +149,14 @@ async function socketInit() {
 }
 
 
-// Stopper la simulation
+// Stop the simulation
 document.getElementById('stopButton').addEventListener('click', function() {
     stopSimulation()
 });
 
 async function stopSimulation() {
     if (!apiHost) {
-        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+        await loadConfig(); 
     }
     const url = `${apiHost}/simulation/stop`;
     if (isRunning) {
@@ -179,7 +167,7 @@ async function stopSimulation() {
 
 async function resetSimulation() {
     if (!apiHost) {
-        await loadConfig(); // Charger apiHost si ce n'est pas encore fait
+        await loadConfig();
     }
     const url = `${apiHost}/simulation/reset`;
     if (isRunning) {
@@ -188,57 +176,52 @@ async function resetSimulation() {
     }
 }
 
-// Réinitialiser la simulation
+// Reset the simulation
 document.getElementById('resetButton').addEventListener('click', function() {
     if (isRunning && socket) {
         resetSimulation()
     }
-    
-    // Effacer les voitures et le tableau de bord
-    cars = {};  // Vider l'objet des voitures
-    document.getElementById('carTable').querySelector('tbody').innerHTML = ''; // Vider le tableau de bord
-    draw(); // Redessiner le canvas
-
-    // Réinitialiser le tableau des meilleurs temps
-    bestLapTimes = {}; // Vider les meilleurs temps
-    updateLeaderboard(); // Mettre à jour le leaderboard
+    cars = {};  
+    document.getElementById('carTable').querySelector('tbody').innerHTML = '';
+    draw();
+    bestLapTimes = {}; 
+    updateLeaderboard(); 
 });
 function updateDashboard(carModel, speedX, speedY, mass, couple) {
     const speedNorm = Math.sqrt(speedX * speedX + speedY * speedY).toFixed(2);
 
     let carRow = document.getElementById(carModel);
     if (!carRow) {
-        // Ligne principale contenant le modèle, la couleur et la vitesse
+        // 
         carRow = document.createElement('tr');
         carRow.id = carModel;
 
-        // Création de la cellule pour le cercle de couleur
         const colorCell = document.createElement('td');
-        colorCell.style.width = '20px';  // Réduire la largeur de la cellule
+        colorCell.style.width = '20px';
         const colorCircle = document.createElement('div');
         colorCircle.style.width = '12px';
         colorCircle.style.height = '12px';
         colorCircle.style.borderRadius = '50%';
-        colorCircle.style.backgroundColor = carColors[carModel];  // Utilise la couleur de la voiture
-        colorCircle.style.margin = 'auto';  // Centrer le cercle dans la cellule
+        colorCircle.style.backgroundColor = carColors[carModel];  
+        colorCircle.style.margin = 'auto';
         colorCell.appendChild(colorCircle);
         carRow.appendChild(colorCell);
 
-        // Cellule pour le modèle de voiture
+        //
         const modelCell = document.createElement('td');
         modelCell.textContent = carModel;
         carRow.appendChild(modelCell);
 
-        // Cellule pour la barre de progression de la vitesse
+        //
         const speedCell = document.createElement('td');
 
-        // Créer une barre de progression pour la vitesse
+        //
         const progressBarContainer = document.createElement('div');
         progressBarContainer.className = 'progress';
 
         const progressBar = document.createElement('div');
         progressBar.className = 'progress-bar';
-        progressBar.style.width = '0%'; // Largeur initiale
+        progressBar.style.width = '0%';
 
         progressBarContainer.appendChild(progressBar);
         speedCell.appendChild(progressBarContainer);
@@ -246,33 +229,30 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
 
         document.getElementById('carTable').querySelector('tbody').appendChild(carRow);
 
-        // Ajouter une nouvelle ligne sous la voiture pour les informations de masse et couple
+        //
         const infoRow = document.createElement('tr');
         infoRow.id = carModel + '-info';
         const infoCell = document.createElement('td');
-        infoCell.colSpan = 3; // Fusionner les colonnes pour les informations
+        infoCell.colSpan = 3;
 
         infoRow.appendChild(infoCell);
         document.getElementById('carTable').querySelector('tbody').appendChild(infoRow);
     }
 
-    // Mettre à jour la barre de progression pour la vitesse
+    // Update speed progression bar
     const progressBar = carRow.querySelector('.progress-bar');
 
-    // Définir la largeur et la couleur en fonction de la vitesse
-    const maxSpeed = 100; // Vitesse maximale pour la visualisation
+    const maxSpeed = 100;
     const normalizedSpeed = Math.min(speedNorm, maxSpeed);
     progressBar.style.width = `${(normalizedSpeed / maxSpeed) * 100}%`;
 
-    // Calculer la couleur en dégradé
     const speedRatio = normalizedSpeed / maxSpeed;
     const red = Math.floor(255 * speedRatio);
     const blue = Math.floor(255 * (1 - speedRatio));
     const color = `rgb(${red}, 0, ${blue})`;
 
-    progressBar.style.backgroundColor = color; // Mettre à jour la couleur de la barre de progression
+    progressBar.style.backgroundColor = color;
 
-    // Mettre à jour les informations de masse et couple dans la ligne dédiée, en ligne
     const infoRow = document.getElementById(carModel + '-info');
     const infoCell = infoRow.querySelector('td');
     infoCell.innerHTML = `<span style="font-size: 0.8em;">${mass} kg | ${couple} Nm</span>`;
@@ -280,38 +260,34 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
 
 
 
-// Fonction pour mettre à jour les meilleurs temps
+// Update the best times
 function updateBestLapTime(brand, lapTime) {
-    // Si aucun temps n'existe encore ou si le nouveau temps est meilleur
     if (!bestLapTimes[brand] || lapTime/1000 < bestLapTimes[brand]) {
         bestLapTimes[brand] = lapTime/1000;
-        console.log("nouveau meilleur temps :"+bestLapTimes[brand]) // Mettez à jour le meilleur temps
-        updateLeaderboard(); // Mettez à jour le tableau de classement
+        console.log("nouveau meilleur temps :"+bestLapTimes[brand])
+        updateLeaderboard();
     }
 }
 
-// Fonction pour mettre à jour le tableau de classement
+// Update the leaderboard
 function updateLeaderboard() {
     const leaderboardBody = document.getElementById('leaderboardTable').querySelector('tbody');
-    leaderboardBody.innerHTML = ''; // Vider le tableau avant de le remplir
+    leaderboardBody.innerHTML = ''; 
 
     const entries = Object.entries(bestLapTimes);
     let sortedCars;
 
-    // Vérifiez le nombre d'entrées
     if (entries.length <= 1) {
-        sortedCars = entries; // Pas besoin de trier
+        sortedCars = entries;
     } else {
-        sortedCars = entries.sort((a, b) => a[1] - b[1]); // Trier seulement si plus d'une voiture
+        sortedCars = entries.sort((a, b) => a[1] - b[1]); 
     }
 
-    // Ajouter les meilleures voitures au tableau
     sortedCars.forEach(([model, time], index) => {
         const row = document.createElement('tr');
         
-        // Créer une cellule pour la position
         const positionCell = document.createElement('td');
-        positionCell.textContent = index + 1; // La position est l'index + 1
+        positionCell.textContent = index + 1; 
         row.appendChild(positionCell);
         
         const modelCell = document.createElement('td');
@@ -319,7 +295,7 @@ function updateLeaderboard() {
         row.appendChild(modelCell);
         
         const timeCell = document.createElement('td');
-        timeCell.textContent = time.toFixed(2); // Affichez le temps avec deux décimales
+        timeCell.textContent = time.toFixed(2); 
         row.appendChild(timeCell);
 
         leaderboardBody.appendChild(row);
@@ -327,9 +303,6 @@ function updateLeaderboard() {
 }
 
 
-
-
-// Fonction de dessin des voitures et du circuit
 function draw() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
