@@ -70,10 +70,6 @@ async function addCar(carData) {
         },
         body: JSON.stringify(carData)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Voiture ajoutée avec succès :", data);
-    })
     .catch(error => console.error('Erreur lors de l\'ajout de la voiture:', error));
     
 }
@@ -99,7 +95,6 @@ async function socketInit() {
     if (!isRunning) {
         socket = new WebSocket(socketUrl);
         socket.onopen = function() {
-            console.log("Connexion établie.");
             isRunning = true;
             document.getElementById('startButton').disabled = true;
             document.getElementById('stopButton').disabled = false;
@@ -109,7 +104,6 @@ async function socketInit() {
         socket.onmessage = function(event) {
             const data = JSON.parse(event.data);
             if (data.lapTime !== undefined) { 
-                console.log("temps actuel: "+data.lapTime)
                 updateBestLapTime(data.carBrand, data.lapTime);
             }
             else{
@@ -139,7 +133,6 @@ async function socketInit() {
         
         };
         socket.onclose = function() {
-            console.log("Connexion fermée.");
             isRunning = false;
             document.getElementById('startButton').disabled = false;
             document.getElementById('stopButton').disabled = true;
@@ -264,7 +257,6 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
 function updateBestLapTime(brand, lapTime) {
     if (!bestLapTimes[brand] || lapTime/1000 < bestLapTimes[brand]) {
         bestLapTimes[brand] = lapTime/1000;
-        console.log("nouveau meilleur temps :"+bestLapTimes[brand])
         updateLeaderboard();
     }
 }
