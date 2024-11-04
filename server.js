@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/config', (req, res) => {
-    res.json({ apiHost: process.env.API_HOST });
+    res.json({ apiHost: `http://localhost:${process.env.API_PORT}` });
 });
 
 app.listen(PORT, () => {
