@@ -118,27 +118,27 @@ html, body {
     width: 100%;
 }
 
-#carTable {
+#droneTable {
     margin-top: 20px;
     width: 100%;
     border-collapse: collapse;
 }
 
-#carTable th, #carTable td {
+#droneTable th, #droneTable td {
     border: none;
     padding: 10px;
     text-align: center;
 }
 
-#carTable tbody {
+#droneTable tbody {
     display: table-row-group;
 }
 
-#carTable td:first-child {
+#droneTable td:first-child {
     width: 30%;
 }
 
-#carTable td:last-child {
+#droneTable td:last-child {
     width: 70%;
 }
 

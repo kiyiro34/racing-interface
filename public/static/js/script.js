@@ -6,8 +6,8 @@ const canvasWidth = 800;
 const canvasHeight = 800;
 const scale = canvasWidth / 500;
 
-let cars = {};  
-let carColors = {}; 
+let drones = {};  
+let droneColors = {}; 
 let bestLapTimes = {}; 
 let circuit = null;
 const colors = ['#d11c04', '#0957bd', '#24bf4e', '#f5e105', '#9318cc', '#eb860c','#ad0e68']; 
@@ -44,20 +44,20 @@ initializeCircuit();
 
 // Add a car to the race
 document.getElementById('addCarButton').addEventListener('click', function() {
-    const carBrand = document.getElementById('carBrand').value;
+    const droneBrand = document.getElementById('droneBrand').value;
     const power = document.getElementById('powerRange').value;
     const mass = document.getElementById('massRange').value;
 
-    const carData = {
-        brand: carBrand,
+    const droneData = {
+        brand: droneBrand,
         power: power,
         mass: mass
     };
-    addCar(carData)
+    addCar(droneData)
     
 });
 
-async function addCar(carData) {
+async function addCar(droneData) {
     if (!apiHost) {
         await loadConfig(); 
     }
@@ -68,7 +68,7 @@ async function addCar(carData) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(carData)
+        body: JSON.stringify(droneData)
     })
     .catch(error => console.error('Erreur lors de l\'ajout de la voiture:', error));
     
@@ -107,24 +107,24 @@ async function socketInit() {
                 updateBestLapTime(data.carBrand, data.lapTime);
             }
             else{
-                for (let carModel in data) {
-                    const carData = data[carModel];
-                    if (carData.positionX !== undefined && carData.positionY !== undefined) {
-                        if (!cars[carModel]) {
-                            const color = colors[Object.keys(cars).length % colors.length];
-                            carColors[carModel] = color;
-                            cars[carModel] = new Car(carData.positionX, carData.positionY, color, carData.mass, carData.couple);
+                for (let droneModel in data) {
+                    const droneData = data[droneModel];
+                    if (droneData.positionX !== undefined && droneData.positionY !== undefined) {
+                        if (!drones[droneModel]) {
+                            const color = colors[Object.keys(drones).length % colors.length];
+                            droneColors[droneModel] = color;
+                            drones[droneModel] = new Drone(droneData.positionX, droneData.positionY, color, droneData.mass, droneData.couple);
                         } else {
-                            cars[carModel].positionX = carData.positionX;
-                            cars[carModel].positionY = carData.positionY;
-                            cars[carModel].mass = carData.mass;
-                            cars[carModel].couple = carData.couple;
-                            cars[carModel].heading = carData.heading;
+                            drones[droneModel].positionX = droneData.positionX;
+                            drones[droneModel].positionY = droneData.positionY;
+                            drones[droneModel].mass = droneData.mass;
+                            drones[droneModel].couple = droneData.couple;
+                            drones[droneModel].heading = droneData.heading;
                         }
-                        cars[carModel].speedVector = { x: carData.speedX, y: carData.speedY };
-                        cars[carModel].nextPointVector = { x: carData.nextPointVectorX, y: carData.nextPointVectorY };
+                        drones[droneModel].speedVector = { x: droneData.speedX, y: droneData.speedY };
+                        drones[droneModel].nextPointVector = { x: droneData.nextPointVectorX, y: droneData.nextPointVectorY };
             
-                        updateDashboard(carModel, carData.speedX, carData.speedY, carData.mass, carData.couple);
+                        updateDashboard(droneModel, droneData.speedX, droneData.speedY, droneData.mass, droneData.couple);
                     }            
                 }
                 draw();
@@ -174,20 +174,20 @@ document.getElementById('resetButton').addEventListener('click', function() {
     if (isRunning && socket) {
         resetSimulation()
     }
-    cars = {};  
-    document.getElementById('carTable').querySelector('tbody').innerHTML = '';
+    drones = {};  
+    document.getElementById('droneTable').querySelector('tbody').innerHTML = '';
     draw();
     bestLapTimes = {}; 
     updateLeaderboard(); 
 });
-function updateDashboard(carModel, speedX, speedY, mass, couple) {
+function updateDashboard(droneModel, speedX, speedY, mass, couple) {
     const speedNorm = Math.sqrt(speedX * speedX + speedY * speedY).toFixed(2);
 
-    let carRow = document.getElementById(carModel);
-    if (!carRow) {
+    let droneRow = document.getElementById(droneModel);
+    if (!droneRow) {
         // 
-        carRow = document.createElement('tr');
-        carRow.id = carModel;
+        droneRow = document.createElement('tr');
+        droneRow.id = droneModel;
 
         const colorCell = document.createElement('td');
         colorCell.style.width = '20px';
@@ -195,15 +195,15 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
         colorCircle.style.width = '12px';
         colorCircle.style.height = '12px';
         colorCircle.style.borderRadius = '50%';
-        colorCircle.style.backgroundColor = carColors[carModel];  
+        colorCircle.style.backgroundColor = droneColors[droneModel];  
         colorCircle.style.margin = 'auto';
         colorCell.appendChild(colorCircle);
-        carRow.appendChild(colorCell);
+        droneRow.appendChild(colorCell);
 
         //
         const modelCell = document.createElement('td');
-        modelCell.textContent = carModel;
-        carRow.appendChild(modelCell);
+        modelCell.textContent = droneModel;
+        droneRow.appendChild(modelCell);
 
         //
         const speedCell = document.createElement('td');
@@ -218,22 +218,22 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
 
         progressBarContainer.appendChild(progressBar);
         speedCell.appendChild(progressBarContainer);
-        carRow.appendChild(speedCell);
+        droneRow.appendChild(speedCell);
 
-        document.getElementById('carTable').querySelector('tbody').appendChild(carRow);
+        document.getElementById('droneTable').querySelector('tbody').appendChild(droneRow);
 
         //
         const infoRow = document.createElement('tr');
-        infoRow.id = carModel + '-info';
+        infoRow.id = droneModel + '-info';
         const infoCell = document.createElement('td');
         infoCell.colSpan = 3;
 
         infoRow.appendChild(infoCell);
-        document.getElementById('carTable').querySelector('tbody').appendChild(infoRow);
+        document.getElementById('droneTable').querySelector('tbody').appendChild(infoRow);
     }
 
     // Update speed progression bar
-    const progressBar = carRow.querySelector('.progress-bar');
+    const progressBar = droneRow.querySelector('.progress-bar');
 
     const maxSpeed = 100;
     const normalizedSpeed = Math.min(speedNorm, maxSpeed);
@@ -246,7 +246,7 @@ function updateDashboard(carModel, speedX, speedY, mass, couple) {
 
     progressBar.style.backgroundColor = color;
 
-    const infoRow = document.getElementById(carModel + '-info');
+    const infoRow = document.getElementById(droneModel + '-info');
     const infoCell = infoRow.querySelector('td');
     infoCell.innerHTML = `<span style="font-size: 0.8em;">${mass} kg | ${couple} Nm</span>`;
 }
@@ -267,15 +267,15 @@ function updateLeaderboard() {
     leaderboardBody.innerHTML = ''; 
 
     const entries = Object.entries(bestLapTimes);
-    let sortedCars;
+    let sortedDrones;
 
     if (entries.length <= 1) {
-        sortedCars = entries;
+        sortedDrones = entries;
     } else {
-        sortedCars = entries.sort((a, b) => a[1] - b[1]); 
+        sortedDrones = entries.sort((a, b) => a[1] - b[1]); 
     }
 
-    sortedCars.forEach(([model, time], index) => {
+    sortedDrones.forEach(([model, time], index) => {
         const row = document.createElement('tr');
         
         const positionCell = document.createElement('td');
@@ -302,8 +302,8 @@ function draw() {
         circuit.draw(ctx, scale, canvasHeight, canvasWidth);
     }
 
-    for (let carModel in cars) {
-        const car = cars[carModel];
-        car.draw(ctx, scale, canvasHeight, canvasWidth, circuit.boundingBox, car.speedVector, car.nextPointVector);
+    for (let droneModel in drones) {
+        const droneInd = drones[droneModel];
+        droneInd.draw(ctx, scale, canvasHeight, canvasWidth, circuit.boundingBox, droneInd.speedVector, droneInd.nextPointVector);
     }
 }

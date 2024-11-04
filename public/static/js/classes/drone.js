@@ -1,10 +1,10 @@
-class Car {
+class Drone {
     constructor(positionX, positionY, color, mass = 0, couple = 0) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.color = color;
         this.image = new Image();
-        this.image.src = "static/img/done.webp";  
+        this.image.src = "static/img/logo_Drone_.png";  
         this.heading = 0; 
         this.mass = mass; 
         this.couple = couple; 
