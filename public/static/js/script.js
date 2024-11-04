@@ -61,7 +61,7 @@ async function addCar(droneData) {
     if (!apiHost) {
         await loadConfig(); 
     }
-    const url = `${apiHost}/car/add`;
+    const url = `${apiHost}/drone/add`;
     // Send car data to the api
     fetch(url, {
         method: "POST",
